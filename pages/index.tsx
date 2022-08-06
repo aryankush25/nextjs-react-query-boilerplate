@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
+import { loginRoute } from "../src/utils/routes";
 import { getDataFromCookie, tokenConstant } from "../src/utils/tokenHelpers";
 
 const Home: NextPage = () => {
@@ -13,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {},
-    ...(isAuthenticated ? {} : { redirect: { destination: "/login" } }),
+    ...(isAuthenticated ? {} : { redirect: { destination: loginRoute } }),
   };
 };
 

@@ -10,6 +10,7 @@ import {
   saveDataInCookies,
   tokenConstant,
 } from "../../src/utils/tokenHelpers";
+import { rootRoute } from "../../src/utils/routes";
 
 interface IFormInputs {
   email: string;
@@ -24,7 +25,7 @@ const Login: NextPage = () => {
       onSuccess: (response) => {
         console.log("success", response.data.token);
         saveDataInCookies({ [tokenConstant]: response.data.token });
-        router.push("/");
+        router.push(rootRoute);
       },
     });
 
@@ -95,7 +96,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {},
-    ...(isAuthenticated ? { redirect: { destination: "/" } } : {}),
+    ...(isAuthenticated ? { redirect: { destination: rootRoute } } : {}),
   };
 };
 
