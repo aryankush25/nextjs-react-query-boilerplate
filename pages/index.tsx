@@ -1,8 +1,13 @@
 import type { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
 import * as R from "ramda";
 import { getCurrentUser } from "../src/services/userAPIs";
 import { loginRoute } from "../src/utils/routes";
-import { getDataFromCookie, tokenConstant } from "../src/utils/tokenHelpers";
+import {
+  clearDataInCookies,
+  getDataFromCookie,
+  tokenConstant,
+} from "../src/utils/tokenHelpers";
 
 interface HomeProps {
   user: {
@@ -16,9 +21,25 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ user }) => {
+  const router = useRouter();
+
   console.log("#### user", user);
 
-  return <div>Hello</div>;
+  return (
+    <div>
+      <div>Hello</div>
+      <div>
+        <button
+          onClick={() => {
+            clearDataInCookies(tokenConstant);
+            router.push(loginRoute);
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
