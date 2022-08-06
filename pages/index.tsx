@@ -49,7 +49,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
 
   let isAuthenticated = !!authToken;
-
   let userResponse;
 
   if (isAuthenticated) {
