@@ -22,16 +22,15 @@ interface IFormInputs {
 const Register: NextPage = () => {
   const router = useRouter();
 
-  const { isLoading, isSuccess, isError, data, error, mutate, reset } =
-    useMutation(userCreateAccount, {
+  const { isLoading, isError, error, mutate, reset } = useMutation(
+    userCreateAccount,
+    {
       onSuccess: (response) => {
-        console.log("success", response.data.token);
         saveDataInCookies({ [tokenConstant]: response.data.token });
         router.push(rootRoute);
       },
-    });
-
-  console.log({ isLoading, isSuccess, isError, data, error });
+    }
+  );
 
   const {
     register,

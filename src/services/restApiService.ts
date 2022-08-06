@@ -1,19 +1,22 @@
 import { ApiRequestMethods } from "./../utils/enums";
 import axios from "axios";
 import { tokenConstant, getDataFromCookie } from "../utils/tokenHelpers";
+import { isPresent } from "../utils/helpers";
 
 const fetchForData = async (
   method: ApiRequestMethods,
   route: string,
   authorization: boolean,
-  data?: Object
+  { data, authToken }: { data?: Object; authToken?: string } = {}
 ) => {
   const url = "https://task-manager-aryankush25.herokuapp.com" + route;
 
   const headers = {
     "Content-Type": "application/json",
     ...(authorization && {
-      Authorization: `Bearer ${getDataFromCookie(tokenConstant)}`,
+      Authorization: `Bearer ${
+        isPresent(authToken) ? authToken : getDataFromCookie(tokenConstant)
+      }`,
     }),
   };
 
