@@ -5,24 +5,25 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { userLogin } from "../../src/services/userAPIs";
+import { userCreateAccount } from "../../src/services/userAPIs";
 import {
   getDataFromCookie,
   saveDataInCookies,
   tokenConstant,
 } from "../../src/utils/tokenHelpers";
-import { registerRoute, rootRoute } from "../../src/utils/routes";
+import { loginRoute, rootRoute } from "../../src/utils/routes";
 
 interface IFormInputs {
+  name: string;
   email: string;
   password: string;
 }
 
-const Login: NextPage = () => {
+const Register: NextPage = () => {
   const router = useRouter();
 
   const { isLoading, isSuccess, isError, data, error, mutate, reset } =
-    useMutation(userLogin, {
+    useMutation(userCreateAccount, {
       onSuccess: (response) => {
         console.log("success", response.data.token);
         saveDataInCookies({ [tokenConstant]: response.data.token });
@@ -37,7 +38,11 @@ const Login: NextPage = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<IFormInputs>({
-    defaultValues: { email: "aryan@gluelabs.com", password: "test@123" },
+    defaultValues: {
+      name: "Aryan agarwal",
+      email: "aryan@gluelabs.com",
+      password: "test@123",
+    },
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = useCallback(
@@ -58,6 +63,16 @@ const Login: NextPage = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="name">Name</label>
+        <br />
+
+        <input {...register("name", { required: true })} />
+        <br />
+
+        {errors.name && "Name is required"}
+      </div>
+
       <div>
         <label htmlFor="email">Email</label>
         <br />
@@ -81,13 +96,13 @@ const Login: NextPage = () => {
       <input
         type="submit"
         disabled={isLoading}
-        value={isLoading ? "Logging in" : "Login"}
+        value={isLoading ? "Creating your account." : "Register"}
       />
 
       <br />
 
       <div>
-        {"Don't have an account?"} <Link href={registerRoute}>Register</Link>
+        {"Already have an account?"} <Link href={loginRoute}>Login</Link>
       </div>
     </form>
   );
@@ -105,4 +120,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default Login;
+export default Register;
