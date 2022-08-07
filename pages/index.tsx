@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let userResponse;
 
   if (isAuthenticated) {
-    userResponse = await getCurrentUser("");
+    userResponse = await getCurrentUser(authToken);
   }
 
   return {

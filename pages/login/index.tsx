@@ -44,10 +44,6 @@ const Login: NextPage = () => {
     [mutate]
   );
 
-  if (isSuccess) {
-    return <div>Redirecting you to Home page</div>;
-  }
-
   if (isError) {
     return (
       <div>
