@@ -1,6 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import * as R from "ramda";
+import { getCurrentUserTasks } from "../src/services/taskAPIs";
 import { getCurrentUser } from "../src/services/userAPIs";
 import { loginRoute } from "../src/utils/routes";
 import {
@@ -18,12 +19,21 @@ interface HomeProps {
     createdAt: string;
     updatedAt: string;
   };
+  tasks: {
+    completed: boolean;
+    createdAt: string;
+    description: string;
+    owner: string;
+    updatedAt: string;
+    _id: string;
+  }[];
 }
 
-const Home: NextPage<HomeProps> = ({ user }) => {
+const Home: NextPage<HomeProps> = ({ user, tasks }) => {
   const router = useRouter();
 
   console.log("#### user", user);
+  console.log("#### tasks", tasks);
 
   return (
     <div>
@@ -50,13 +60,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   let isAuthenticated = !!authToken;
   let userResponse;
+  let taskResponse;
 
   if (isAuthenticated) {
-    userResponse = await getCurrentUser(authToken);
+    [userResponse, taskResponse] = await Promise.all([
+      getCurrentUser(authToken),
+      getCurrentUserTasks(authToken),
+    ]);
   }
 
   return {
-    props: { user: R.pathOr(null, ["data"], userResponse) },
+    props: {
+      user: R.pathOr(null, ["data"], userResponse),
+      tasks: R.pathOr(null, ["data"], taskResponse),
+    },
     ...(isAuthenticated ? {} : { redirect: { destination: loginRoute } }),
   };
 };
