@@ -79,8 +79,14 @@ const Login: NextPage = () => {
 
       <input
         type="submit"
-        disabled={isLoading}
-        value={isLoading ? "Logging in" : "Login"}
+        disabled={isLoading || isSuccess}
+        value={
+          isLoading
+            ? "Logging in"
+            : isSuccess
+            ? "Redirecting you to login page"
+            : "Login"
+        }
       />
 
       <br />
