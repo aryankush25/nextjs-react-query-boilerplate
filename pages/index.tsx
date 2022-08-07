@@ -52,11 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   let userResponse;
 
   if (isAuthenticated) {
-    try {
-      userResponse = await getCurrentUser(authToken);
-    } catch (error) {
-      isAuthenticated = false;
-    }
+    userResponse = await getCurrentUser(authToken);
   }
 
   return {
