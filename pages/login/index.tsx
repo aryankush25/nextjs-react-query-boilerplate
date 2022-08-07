@@ -21,12 +21,15 @@ interface IFormInputs {
 const Login: NextPage = () => {
   const router = useRouter();
 
-  const { isLoading, isError, error, mutate, reset } = useMutation(userLogin, {
-    onSuccess: (response) => {
-      saveDataInCookies({ [tokenConstant]: response.data.token });
-      router.push(rootRoute);
-    },
-  });
+  const { isLoading, isError, isSuccess, error, mutate, reset } = useMutation(
+    userLogin,
+    {
+      onSuccess: (response) => {
+        saveDataInCookies({ [tokenConstant]: response.data.token });
+        router.push(rootRoute);
+      },
+    }
+  );
 
   const {
     register,
@@ -40,6 +43,10 @@ const Login: NextPage = () => {
     (data: IFormInputs) => mutate(data),
     [mutate]
   );
+
+  if (isSuccess) {
+    return <div>Redirecting you to Home page</div>;
+  }
 
   if (isError) {
     return (
