@@ -32,12 +32,10 @@ interface HomeProps {
 const Home: NextPage<HomeProps> = ({ user, tasks }) => {
   const router = useRouter();
 
-  console.log("#### user", user);
-  console.log("#### tasks", tasks);
-
   return (
     <div>
-      <div>Hello</div>
+      <div>Hello {user.name}</div>
+
       <div>
         <button
           onClick={() => {
@@ -48,6 +46,19 @@ const Home: NextPage<HomeProps> = ({ user, tasks }) => {
           Logout
         </button>
       </div>
+
+      <br />
+      <br />
+
+      {tasks.map((task) => {
+        return (
+          <div key={task._id}>
+            <div>{task.description}</div>
+            <div>{task.completed ? "Completed" : "Pending"}</div>
+            <hr />
+          </div>
+        );
+      })}
     </div>
   );
 };
