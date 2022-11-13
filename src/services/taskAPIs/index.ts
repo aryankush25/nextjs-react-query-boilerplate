@@ -3,10 +3,10 @@ import fetchForData from "../restApiService";
 
 export const tasksRoute = "/tasks";
 
-export const getCurrentUserTasks = async (authToken: string) => {
+export const getCurrentUserTasks = async (authToken?: string) => {
   const response = await fetchForData(ApiRequestMethods.get, tasksRoute, true, {
     authToken,
   });
 
-  return response;
+  return response.data;
 };

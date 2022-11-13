@@ -27,10 +27,10 @@ export const userCreateAccount = async (data: Object | undefined) => {
   return response;
 };
 
-export const getCurrentUser = async (authToken: string) => {
+export const getCurrentUser = async (authToken?: string) => {
   const response = await fetchForData(ApiRequestMethods.get, meRoute, true, {
     authToken,
   });
 
-  return response;
+  return response.data;
 };
