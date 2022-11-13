@@ -27,7 +27,7 @@ const Login: NextPage = () => {
     {
       onSuccess: (response) => {
         saveDataInCookies({ [tokenConstant]: response.token });
-        router.push(rootRoute, undefined, { shallow: true });
+        router.push(rootRoute);
       },
     }
   );
