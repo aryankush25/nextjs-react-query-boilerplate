@@ -26,7 +26,7 @@ const Register: NextPage = () => {
     userCreateAccount,
     {
       onSuccess: (response) => {
-        saveDataInCookies({ [tokenConstant]: response.data.token });
+        saveDataInCookies({ [tokenConstant]: response.token });
         router.push(rootRoute);
       },
     }

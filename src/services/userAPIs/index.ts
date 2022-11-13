@@ -13,7 +13,7 @@ export const userLogin = async (data: Object | undefined) => {
     { data }
   );
 
-  return response;
+  return response.data;
 };
 
 export const userCreateAccount = async (data: Object | undefined) => {
@@ -24,7 +24,7 @@ export const userCreateAccount = async (data: Object | undefined) => {
     { data }
   );
 
-  return response;
+  return response.data;
 };
 
 export const getCurrentUser = async (authToken?: string) => {

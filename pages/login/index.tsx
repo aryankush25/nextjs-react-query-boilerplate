@@ -26,8 +26,8 @@ const Login: NextPage = () => {
     userLogin,
     {
       onSuccess: (response) => {
-        saveDataInCookies({ [tokenConstant]: response.data.token });
-        router.push(rootRoute);
+        saveDataInCookies({ [tokenConstant]: response.token });
+        router.push(rootRoute, undefined, { shallow: true });
       },
     }
   );
@@ -50,7 +50,9 @@ const Login: NextPage = () => {
       <div>
         <div>{R.pathOr("Something went wrong.", ["message"], error)}</div>
         <div>
-          <button onClick={reset}>Reset</button>
+          <button type="button" onClick={reset}>
+            Reset
+          </button>
         </div>
       </div>
     );
@@ -59,7 +61,7 @@ const Login: NextPage = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col items-center justify-center mt-20"
+      className="flex flex-col items-center justify-center pt-20"
     >
       <div className="pb-3.5">
         <label
