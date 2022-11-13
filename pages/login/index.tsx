@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import clsx from "clsx";
 import { userLogin } from "../../src/services/userAPIs";
 import {
   getDataFromCookie,
@@ -56,22 +57,44 @@ const Login: NextPage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <br />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col items-center justify-center mt-20"
+    >
+      <div className="pb-3.5">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Email
+        </label>
 
-        <input {...register("email", { required: true })} />
-        <br />
+        <div className="relative mt-1 rounded-md shadow-sm">
+          <input
+            type="email"
+            className="block w-full px-5 border-gray-300 rounded-md focus:border-primary focus:ring-primary sm:text-sm"
+            {...register("email", { required: true })}
+          />
+        </div>
 
         {errors.email && "Email is required"}
       </div>
 
-      <div>
-        <label htmlFor="password">Password</label>
-        <br />
+      <div className="pb-3.5">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Password
+        </label>
 
-        <input {...register("password", { required: true })} />
+        <div className="relative mt-1 rounded-md shadow-sm">
+          <input
+            type="password"
+            className="block w-full px-5 border-gray-300 rounded-md focus:border-primary focus:ring-primary sm:text-sm"
+            {...register("password", { required: true })}
+          />
+        </div>
         <br />
 
         {errors.password && "Password is required"}
@@ -79,13 +102,13 @@ const Login: NextPage = () => {
 
       <input
         type="submit"
+        className={clsx(
+          "inline-flex justify-center w-full px-4 py-2 mt-3 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm",
+          (isLoading || isSuccess) && "cursor-not-allowed bg-primary text-white"
+        )}
         disabled={isLoading || isSuccess}
         value={
-          isLoading
-            ? "Logging in"
-            : isSuccess
-            ? "Redirecting you to login page"
-            : "Login"
+          isLoading ? "Logging in" : isSuccess ? "Redirecting..." : "Login"
         }
       />
 
