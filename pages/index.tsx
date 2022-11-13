@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { getCurrentUserTasks } from "../src/services/taskAPIs";
@@ -36,8 +36,7 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ user, tasks }) => {
   const router = useRouter();
-  console.log("#### user", user);
-  console.log("#### tasks", tasks);
+  const queryClient = useQueryClient();
 
   const { data: userData } = useQuery(["userData"], () => getCurrentUser(), {
     initialData: user,
@@ -52,9 +51,6 @@ const Home: NextPage<HomeProps> = ({ user, tasks }) => {
     }
   );
 
-  console.log("#### userData", userData);
-  console.log("#### userTasksData", userTasksData);
-
   return (
     <div>
       <div>Hello {userData.name}</div>
@@ -65,6 +61,7 @@ const Home: NextPage<HomeProps> = ({ user, tasks }) => {
           onClick={() => {
             clearDataInCookies(tokenConstant);
             router.push(loginRoute);
+            queryClient.clear();
           }}
         >
           Logout
